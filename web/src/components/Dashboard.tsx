@@ -139,37 +139,18 @@ export default function Dashboard() {
   ))}
 </section>
 
-<div className="mt-8 grid grid-cols-1 xl:grid-cols-2 gap-6">
-  <RiskMap hotspots={event.hotspots} />
-
-  <LiveIncidentFeed incidents={activeIncidents} />
-</div>
-
-<div className="mt-8 grid grid-cols-1 xl:grid-cols-2 gap-6">
-  <section className="rounded-2xl bg-slate-900 p-6">
-    <h2 className="text-2xl font-bold mb-4">
-      Historical Memory
-    </h2>
-
-    {historicalIncidents.map((incident) => (
-      <div
-        key={`${incident.year}-${incident.location}`}
-        className="rounded-xl bg-slate-800 p-4 mb-3"
-      >
-        <p className="font-bold">
-          {incident.year} • {incident.location}
-        </p>
-
-        <p className="text-slate-300">
-          {incident.issue}
-        </p>
-
-        <p className="text-cyan-300">
-          Recommended Action: {incident.action}
-        </p>
-      </div>
-    ))}
-  </section>
+<RiskMap hotspots={event.hotspots} />
+      <section className="mt-8 rounded-2xl bg-slate-900 p-6">
+        <h2 className="text-2xl font-bold mb-4">Historical Memory</h2>
+        {historicalIncidents.map((incident) => (
+          <div key={`${incident.year}-${incident.location}`} className="rounded-xl bg-slate-800 p-4 mb-3">
+            <p className="font-bold">{incident.year} • {incident.location}</p>
+            <p className="text-slate-300">{incident.issue}</p>
+            <p className="text-cyan-300">Recommended Action: {incident.action}</p>
+          </div>
+        ))}
+      </section>
+      <LiveIncidentFeed incidents={activeIncidents} />
       <section className="mt-8 rounded-2xl bg-slate-900 p-6">
         <h2 className="text-2xl font-bold mb-4">Agent Recommendations</h2>
         {event.recommendations.map((rec) => (
