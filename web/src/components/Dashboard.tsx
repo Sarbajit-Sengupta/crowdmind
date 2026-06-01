@@ -33,12 +33,25 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-white p-10">
-      <h1 className="text-5xl font-bold">CrowdMind</h1>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+  <div>
 
-      <p className="mt-3 text-slate-300">
-        World Cup Crowd Intelligence Agent
-      </p>
+    <h1 className="text-6xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+      CrowdMind
+    </h1>
 
+    <p className="mt-2 text-slate-300 text-lg">
+      AI-Powered Stadium Operations Command Center
+    </p>
+  </div>
+
+  <div className="mt-4 md:mt-0">
+    <span className="px-4 py-2 rounded-full bg-green-900 text-green-300 border border-green-700">
+      ● Live Operations Mode
+    </span>
+  </div>
+</div>
+<div className="mt-6 h-px bg-gradient-to-r from-cyan-500 via-blue-500 to-transparent" />
       <section className="mt-8">
         <label className="block mb-2 text-slate-400">Select Match</label>
         <select
@@ -53,49 +66,57 @@ export default function Dashboard() {
       </section>
 
       <section className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="rounded-2xl bg-slate-900 p-6">
-          <p className="text-slate-400">Match</p>
-          <h2 className="text-2xl font-bold">{event.match}</h2>
-        </div>
+       <div className="rounded-2xl bg-slate-900/80 border border-slate-800 p-6 shadow-lg">
+  <p className="text-slate-400">Match</p>
+  <h2 className="mt-2 text-2xl font-bold">{event.match}</h2>
+  <p className="mt-3 text-sm text-cyan-300">World Cup 2026 Fixture</p>
+</div>
 
-        <div className="rounded-2xl bg-slate-900 p-6">
-          <p className="text-slate-400">Venue</p>
-          <h2 className="text-2xl font-bold">{event.stadium}</h2>
-        </div>
+<div className="rounded-2xl bg-slate-900/80 border border-slate-800 p-6 shadow-lg">
+  <p className="text-slate-400">Venue</p>
+  <h2 className="mt-2 text-2xl font-bold">{event.stadium}</h2>
+  <p className="mt-3 text-sm text-cyan-300">Host Operations Zone</p>
+</div>  
 
-        <div className="rounded-2xl bg-red-950 p-6">
-          <p className="text-red-300">Risk Score</p>
-          <h2 className="text-4xl font-bold">{event.riskScore}/10</h2>
-          <p className="mt-2 text-red-200 font-medium">{riskLevel} Risk</p>
-        </div>
+        <div className="relative overflow-hidden rounded-2xl bg-red-950 p-6 border border-red-800 shadow-lg">
+  <div className="absolute right-4 top-4 h-16 w-16 rounded-full bg-red-500/20 blur-xl" />
+
+  <p className="text-red-300">Risk Score</p>
+
+  <h2 className="mt-2 text-5xl font-extrabold">
+    {event.riskScore}/10
+  </h2>
+
+  <p className="mt-2 text-red-200 font-medium">
+    {riskLevel} Risk
+  </p>
+
+  <div className="mt-4 h-2 rounded-full bg-red-900">
+    <div
+      className="h-2 rounded-full bg-red-400"
+      style={{ width: `${event.riskScore * 10}%` }}
+    />
+  </div>
+</div>
       </section>
-      <section className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-  <div className="rounded-xl bg-slate-900 p-4">
-    <p className="text-slate-400 text-sm">Active Incidents</p>
-    <h3 className="text-3xl font-bold">{activeIncidents.length}</h3>
-  </div>
-
-  <div className="rounded-xl bg-slate-900 p-4">
-    <p className="text-slate-400 text-sm">Hotspots</p>
-    <h3 className="text-3xl font-bold">{event.hotspots.length}</h3>
-  </div>
-
-  <div className="rounded-xl bg-slate-900 p-4">
-    <p className="text-slate-400 text-sm">Attendance</p>
-    <h3 className="text-3xl font-bold">
-      {Math.round(event.attendance / 1000)}k
-    </h3>
-  </div>
-
-  <div className="rounded-xl bg-slate-900 p-4">
-    <p className="text-slate-400 text-sm">Risk Level</p>
-    <h3 className="text-3xl font-bold text-red-400">
-      {riskLevel}
-    </h3>
-  </div>
+<section className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+  {[
+    ["Active Incidents", activeIncidents.length, "text-red-400"],
+    ["Hotspots", event.hotspots.length, "text-yellow-300"],
+    ["Attendance", `${Math.round(event.attendance / 1000)}k`, "text-cyan-300"],
+    ["Risk Level", riskLevel, "text-red-400"],
+  ].map(([label, value, color]) => (
+    <div
+      key={label}
+      className="rounded-2xl bg-slate-900/80 border border-slate-800 p-5 shadow-lg"
+    >
+      <p className="text-slate-400 text-sm">{label}</p>
+      <h3 className={`mt-2 text-3xl font-bold ${color}`}>{value}</h3>
+    </div>
+  ))}
 </section>
 
-    
+
 
       <section className="mt-8 rounded-2xl bg-slate-900 p-6">
         <h2 className="text-2xl font-bold mb-4">Why CrowdMind Flagged This Risk</h2>
@@ -118,18 +139,37 @@ export default function Dashboard() {
   ))}
 </section>
 
-<RiskMap hotspots={event.hotspots} />
-      <section className="mt-8 rounded-2xl bg-slate-900 p-6">
-        <h2 className="text-2xl font-bold mb-4">Historical Memory</h2>
-        {historicalIncidents.map((incident) => (
-          <div key={`${incident.year}-${incident.location}`} className="rounded-xl bg-slate-800 p-4 mb-3">
-            <p className="font-bold">{incident.year} • {incident.location}</p>
-            <p className="text-slate-300">{incident.issue}</p>
-            <p className="text-cyan-300">Recommended Action: {incident.action}</p>
-          </div>
-        ))}
-      </section>
-      <LiveIncidentFeed incidents={activeIncidents} />
+<div className="mt-8 grid grid-cols-1 xl:grid-cols-2 gap-6">
+  <RiskMap hotspots={event.hotspots} />
+
+  <LiveIncidentFeed incidents={activeIncidents} />
+</div>
+
+<div className="mt-8 grid grid-cols-1 xl:grid-cols-2 gap-6">
+  <section className="rounded-2xl bg-slate-900 p-6">
+    <h2 className="text-2xl font-bold mb-4">
+      Historical Memory
+    </h2>
+
+    {historicalIncidents.map((incident) => (
+      <div
+        key={`${incident.year}-${incident.location}`}
+        className="rounded-xl bg-slate-800 p-4 mb-3"
+      >
+        <p className="font-bold">
+          {incident.year} • {incident.location}
+        </p>
+
+        <p className="text-slate-300">
+          {incident.issue}
+        </p>
+
+        <p className="text-cyan-300">
+          Recommended Action: {incident.action}
+        </p>
+      </div>
+    ))}
+  </section>
       <section className="mt-8 rounded-2xl bg-slate-900 p-6">
         <h2 className="text-2xl font-bold mb-4">Agent Recommendations</h2>
         {event.recommendations.map((rec) => (
