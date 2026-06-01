@@ -10,6 +10,8 @@ import CopilotBox from "@/src/components/CopilotBox";
 import RiskMap from "@/src/components/RiskMap";
 import LiveIncidentFeed from "@/src/components/LiveIncidentFeed";
 import { liveIncidents } from "@/src/data/liveIncidents";
+import CommandTimeline from "@/src/components/CommandTimeline";
+import { timeline } from "@/src/data/timeline";
 
 export default function Dashboard() {
   const [selectedMatch, setSelectedMatch] =
@@ -29,6 +31,8 @@ export default function Dashboard() {
     incidents[selectedMatch as keyof typeof incidents] || [];
   const activeIncidents =
   liveIncidents[selectedMatch as keyof typeof liveIncidents] || [];
+  const timelineEvents =
+  timeline[selectedMatch as keyof typeof timeline] || [];
   const report = generateSituationReport(event, riskLevel);
 
   return (
@@ -151,6 +155,7 @@ export default function Dashboard() {
         ))}
       </section>
       <LiveIncidentFeed incidents={activeIncidents} />
+      <CommandTimeline events={timelineEvents} />
       <section className="mt-8 rounded-2xl bg-slate-900 p-6">
         <h2 className="text-2xl font-bold mb-4">Agent Recommendations</h2>
         {event.recommendations.map((rec) => (
