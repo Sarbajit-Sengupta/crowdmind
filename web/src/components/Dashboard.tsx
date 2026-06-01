@@ -8,7 +8,8 @@ import { explainRisk } from "@/src/lib/explanationEngine";
 import { generateSituationReport } from "@/src/lib/reportEngine";
 import CopilotBox from "@/src/components/CopilotBox";
 import RiskMap from "@/src/components/RiskMap";
-
+import LiveIncidentFeed from "@/src/components/LiveIncidentFeed";
+import { liveIncidents } from "@/src/data/liveIncidents";
 
 export default function Dashboard() {
   const [selectedMatch, setSelectedMatch] =
@@ -26,7 +27,8 @@ export default function Dashboard() {
 
   const historicalIncidents =
     incidents[selectedMatch as keyof typeof incidents] || [];
-
+  const activeIncidents =
+  liveIncidents[selectedMatch as keyof typeof liveIncidents] || [];
   const report = generateSituationReport(event, riskLevel);
 
   return (
@@ -67,6 +69,33 @@ export default function Dashboard() {
           <p className="mt-2 text-red-200 font-medium">{riskLevel} Risk</p>
         </div>
       </section>
+      <section className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+  <div className="rounded-xl bg-slate-900 p-4">
+    <p className="text-slate-400 text-sm">Active Incidents</p>
+    <h3 className="text-3xl font-bold">{activeIncidents.length}</h3>
+  </div>
+
+  <div className="rounded-xl bg-slate-900 p-4">
+    <p className="text-slate-400 text-sm">Hotspots</p>
+    <h3 className="text-3xl font-bold">{event.hotspots.length}</h3>
+  </div>
+
+  <div className="rounded-xl bg-slate-900 p-4">
+    <p className="text-slate-400 text-sm">Attendance</p>
+    <h3 className="text-3xl font-bold">
+      {Math.round(event.attendance / 1000)}k
+    </h3>
+  </div>
+
+  <div className="rounded-xl bg-slate-900 p-4">
+    <p className="text-slate-400 text-sm">Risk Level</p>
+    <h3 className="text-3xl font-bold text-red-400">
+      {riskLevel}
+    </h3>
+  </div>
+</section>
+
+    
 
       <section className="mt-8 rounded-2xl bg-slate-900 p-6">
         <h2 className="text-2xl font-bold mb-4">Why CrowdMind Flagged This Risk</h2>
@@ -100,7 +129,7 @@ export default function Dashboard() {
           </div>
         ))}
       </section>
-
+      <LiveIncidentFeed incidents={activeIncidents} />
       <section className="mt-8 rounded-2xl bg-slate-900 p-6">
         <h2 className="text-2xl font-bold mb-4">Agent Recommendations</h2>
         {event.recommendations.map((rec) => (
@@ -142,7 +171,7 @@ export default function Dashboard() {
     </p>
   </div>
 </section>  
-      <CopilotBox />
+      <CopilotBox event={event} riskLevel={riskLevel} />
     </main>
   );
 }

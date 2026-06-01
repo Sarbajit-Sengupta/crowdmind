@@ -1,16 +1,70 @@
 "use client";
 
 import { useState } from "react";
-import { getCopilotResponse } from "@/src/lib/copilot";
 
-export default function CopilotBox() {
-  const [question, setQuestion] = useState("What should security do before kickoff?");
-  const [answers, setAnswers] = useState<string[]>(
-    getCopilotResponse("security")
+type Props = {
+  event: any;
+  riskLevel: string;
+};
+
+export default function CopilotBox({ event, riskLevel }: Props) {
+  const [question, setQuestion] = useState(
+    "What should security do before kickoff?"
   );
 
-  function askCopilot() {
-    setAnswers(getCopilotResponse(question));
+  const [answer, setAnswer] = useState(
+    "Ask CrowdMind a stadium operations question."
+  );
+
+  const [loading, setLoading] = useState(false);
+
+  async function askCopilot() {
+    setLoading(true);
+    setAnswer("Thinking...");
+
+    const res = await fetch("/api/copilot", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+  question,
+  context: {
+    match: event.match,
+    stadium: event.stadium,
+    attendance: event.attendance,
+    weather: event.weather,
+    riskScore: event.riskScore,
+    riskLevel,
+    hotspots: event.hotspots,
+    recommendations: event.recommendations,
+  },
+}),
+    });
+
+  const data = await res.json();
+
+if (data.answer) {
+  setAnswer(data.answer);
+} else {
+  setAnswer(
+    `Gemini quota limit reached. Fallback agent response:
+
+Risk assessment:
+Gate A is likely to become overcrowded due to high arrival pressure.
+
+Expected impact:
+Crowd density may increase near entry lanes and slow stadium ingress.
+
+Recommended actions:
+- Open Gate C as an overflow entrance
+- Deploy additional staff near Gate A
+- Redirect fans toward South Entrance
+- Coordinate with transit teams for post-match surge`
+  );
+}
+
+setLoading(false);
   }
 
   return (
@@ -26,22 +80,19 @@ export default function CopilotBox() {
 
         <button
           onClick={askCopilot}
-          className="rounded-xl bg-cyan-500 px-6 font-bold text-slate-950"
+          disabled={loading}
+          className="rounded-xl bg-cyan-500 px-6 font-bold text-slate-950 disabled:opacity-50"
         >
-          Ask
+          {loading ? "Thinking" : "Ask"}
         </button>
       </div>
 
-      <div className="mt-4 rounded-xl bg-cyan-950 border border-cyan-800 p-4">
+      <div className="mt-4 rounded-xl bg-cyan-950 border border-cyan-800 p-4 whitespace-pre-wrap">
         <p className="text-cyan-300 font-semibold mb-3">
           CrowdMind Agent Response
         </p>
 
-        <ul className="space-y-2">
-          {answers.map((answer) => (
-            <li key={answer}>• {answer}</li>
-          ))}
-        </ul>
+        {answer}
       </div>
     </section>
   );
