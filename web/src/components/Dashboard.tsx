@@ -18,6 +18,7 @@ import MongoArchitecture from "@/src/components/MongoArchitecture";
 import WeatherCard from "@/src/components/WeatherCard";
 import DemoModeBanner from "@/src/components/DemoModeBanner";
 import RiskTrendChart from "@/src/components/RiskTrendChart";
+import MultiAgentPanel from "@/src/components/MultiAgentPanel";
 
 export default function Dashboard() {
   const [selectedMatch, setSelectedMatch] =
@@ -282,6 +283,7 @@ async function generateIncident() {
 />
 <MongoArchitecture />
 <DataSources />
+<MultiAgentPanel event={event} />
       <CopilotBox event={event} riskLevel={riskLevel} />
     </main>
   );
