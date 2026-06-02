@@ -20,6 +20,8 @@ import DemoModeBanner from "@/src/components/DemoModeBanner";
 import RiskTrendChart from "@/src/components/RiskTrendChart";
 import MultiAgentPanel from "@/src/components/MultiAgentPanel";
 import OperationsStatusBoard from "@/src/components/OperationsStatusBoard";
+import CommandActionPlan from "@/src/components/CommandActionPlan";
+import AIIncidentTimeline from "@/src/components/AIIncidentTimeline";
 
 
 export default function Dashboard() {
@@ -49,6 +51,7 @@ export default function Dashboard() {
 
   const report = generateSituationReport(event, riskLevel);
 
+  
   async function saveReport() {
     await fetch("/api/reports", {
       method: "POST",
@@ -329,10 +332,17 @@ export default function Dashboard() {
             </div>
           )}
         </section>
+        <AIIncidentTimeline incident={aiIncident} />
       </div>
 
       <section className="mt-8 rounded-2xl bg-cyan-950 border border-cyan-800 p-6">
+        <CommandActionPlan
+  riskLevel={riskLevel}
+  riskScore={event.riskScore}
+/>
+
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            
           <h2 className="text-2xl font-bold">CrowdMind Situation Report</h2>
 
           <button
