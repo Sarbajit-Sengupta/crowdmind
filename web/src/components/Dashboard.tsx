@@ -19,6 +19,8 @@ import WeatherCard from "@/src/components/WeatherCard";
 import DemoModeBanner from "@/src/components/DemoModeBanner";
 import RiskTrendChart from "@/src/components/RiskTrendChart";
 import MultiAgentPanel from "@/src/components/MultiAgentPanel";
+import OperationsStatusBoard from "@/src/components/OperationsStatusBoard";
+
 
 export default function Dashboard() {
   const [selectedMatch, setSelectedMatch] =
@@ -97,29 +99,32 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-white p-8 md:p-10">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-6xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-            CrowdMind
-          </h1>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
+  <div>
+    <h1 className="text-5xl font-black tracking-tight bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+      CrowdMind
+    </h1>
 
-          <p className="mt-2 text-slate-300 text-lg">
-            AI-Powered Stadium Operations Command Center
-          </p>
-        </div>
+    <p className="mt-2 text-slate-400 text-lg">
+      AI-Powered Stadium Operations Command Center
+    </p>
+  </div>
 
-        <div className="mt-4 md:mt-0">
-          <span className="px-4 py-2 rounded-full bg-green-900 text-green-300 border border-green-700">
-            ● Live Operations Mode
-          </span>
-        </div>
-      </div>
+  <div className="mt-4 lg:mt-0 flex gap-3">
+    <div className="px-4 py-2 rounded-full bg-green-500/20 border border-green-500 text-green-300 font-medium">
+      ● LIVE OPS
+    </div>
+
+    <div className="px-4 py-2 rounded-full bg-cyan-500/20 border border-cyan-500 text-cyan-300 font-medium">
+      AI ACTIVE
+    </div>
+  </div>
+</div>
 
       <div className="mt-6 h-px bg-gradient-to-r from-cyan-500 via-blue-500 to-transparent" />
 
       <DemoModeBanner />
-
-      <section className="mt-8">
+       <section className="mt-8">
         <label className="block mb-2 text-slate-400">Select Match</label>
         <select
           value={selectedMatch}
@@ -131,6 +136,46 @@ export default function Dashboard() {
           <option value="englandFrance">England vs France</option>
         </select>
       </section>
+      <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-6 mb-8">
+      
+  <div className="rounded-2xl bg-slate-900 border border-green-500 p-4 shadow-lg">
+    <p className="text-sm text-slate-400">Security</p>
+    <h3 className="text-xl font-bold text-green-400 mt-2">
+      READY
+    </h3>
+  </div>
+
+  <div className="rounded-2xl bg-slate-900 border border-yellow-500 p-4 shadow-lg">
+    <p className="text-sm text-slate-400">Transit</p>
+    <h3 className="text-xl font-bold text-yellow-400 mt-2">
+      MONITORING
+    </h3>
+  </div>
+
+  <div className="rounded-2xl bg-slate-900 border border-cyan-500 p-4 shadow-lg">
+    <p className="text-sm text-slate-400">Medical</p>
+    <h3 className="text-xl font-bold text-cyan-400 mt-2">
+      STANDBY
+    </h3>
+  </div>
+
+  <div className="rounded-2xl bg-slate-900 border border-red-500 p-4 shadow-lg">
+    <p className="text-sm text-slate-400">Risk Level</p>
+    <h3 className="text-xl font-bold text-red-400 mt-2">
+      {riskLevel.toUpperCase()}
+    </h3>
+  </div>
+
+</section>
+<OperationsStatusBoard
+  hotspots={event.hotspots}
+  riskScore={event.riskScore}
+  attendance={event.attendance}
+  rivalryLevel={event.rivalryLevel}
+  transitLoad={event.transitLoad}
+/>
+
+     
 
       <section className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="rounded-2xl bg-slate-900/80 border border-slate-800 p-6 shadow-lg">
