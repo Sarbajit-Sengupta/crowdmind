@@ -12,6 +12,10 @@ import LiveIncidentFeed from "@/src/components/LiveIncidentFeed";
 import { liveIncidents } from "@/src/data/liveIncidents";
 import CommandTimeline from "@/src/components/CommandTimeline";
 import { timeline } from "@/src/data/timeline";
+import ScenarioSimulator from "@/src/components/ScenarioSimulator";
+import DataSources from "@/src/components/DataSources";
+import MongoArchitecture from "@/src/components/MongoArchitecture";
+import WeatherCard from "@/src/components/WeatherCard";
 
 export default function Dashboard() {
   const [selectedMatch, setSelectedMatch] =
@@ -34,6 +38,26 @@ export default function Dashboard() {
   const timelineEvents =
   timeline[selectedMatch as keyof typeof timeline] || [];
   const report = generateSituationReport(event, riskLevel);
+
+  async function saveReport() {
+  await fetch("/api/reports", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      match: event.match,
+      stadium: event.stadium,
+      riskScore: event.riskScore,
+      riskLevel,
+      summary: report.summary,
+      impact: report.impact,
+      priorityActions: report.priorityActions,
+    }),
+  });
+
+  alert("Situation report saved to MongoDB");
+}
 
   return (
     <main className="min-h-screen bg-slate-950 text-white p-10">
@@ -120,7 +144,7 @@ export default function Dashboard() {
   ))}
 </section>
 
-
+<WeatherCard weather={event.weather} />
 
       <section className="mt-8 rounded-2xl bg-slate-900 p-6">
         <h2 className="text-2xl font-bold mb-4">Why CrowdMind Flagged This Risk</h2>
@@ -167,6 +191,12 @@ export default function Dashboard() {
 
       <section className="mt-8 rounded-2xl bg-cyan-950 border border-cyan-800 p-6">
         <h2 className="text-2xl font-bold mb-4">CrowdMind Situation Report</h2>
+        <button
+  onClick={saveReport}
+  className="mb-4 rounded-xl bg-cyan-500 px-4 py-2 font-bold text-slate-950"
+>
+  Save Report to MongoDB
+</button>
         <p className="text-cyan-100 mb-4">{report.summary}</p>
 
         <h3 className="font-bold text-cyan-300 mb-2">Predicted Impact</h3>
@@ -183,20 +213,14 @@ export default function Dashboard() {
           ))}
         </ul>
       </section>
-<section className="mt-8 rounded-2xl bg-slate-900 p-6">
-  <h2 className="text-2xl font-bold mb-4">Scenario Simulator</h2>
-
-  <p className="text-slate-400 mb-4">
-    Test how crowd risk changes if attendance increases.
-  </p>
-
-  <div className="mt-4 rounded-xl bg-red-950 p-4">
-    <p className="text-red-300">Simulated Risk</p>
-    <p className="text-3xl font-bold">
-      {event.riskScore}/10 — {riskLevel}
-    </p>
-  </div>
-</section>  
+<ScenarioSimulator
+  baseAttendance={event.attendance}
+  weather={event.weather}
+  rivalryLevel={event.rivalryLevel}
+  transitLoad={event.transitLoad}
+/>
+<MongoArchitecture />
+<DataSources />
       <CopilotBox event={event} riskLevel={riskLevel} />
     </main>
   );
