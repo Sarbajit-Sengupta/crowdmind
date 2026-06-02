@@ -16,6 +16,8 @@ import ScenarioSimulator from "@/src/components/ScenarioSimulator";
 import DataSources from "@/src/components/DataSources";
 import MongoArchitecture from "@/src/components/MongoArchitecture";
 import WeatherCard from "@/src/components/WeatherCard";
+import DemoModeBanner from "@/src/components/DemoModeBanner";
+import RiskTrendChart from "@/src/components/RiskTrendChart";
 
 export default function Dashboard() {
   const [selectedMatch, setSelectedMatch] =
@@ -111,6 +113,8 @@ async function generateIncident() {
   </div>
 </div>
 <div className="mt-6 h-px bg-gradient-to-r from-cyan-500 via-blue-500 to-transparent" />
+<DemoModeBanner />
+
       <section className="mt-8">
         <label className="block mb-2 text-slate-400">Select Match</label>
         <select
@@ -176,7 +180,10 @@ async function generateIncident() {
 </section>
 
 <WeatherCard weather={event.weather} />
-
+<RiskTrendChart
+  baseRisk={event.riskScore}
+  match={event.match}
+/>
       <section className="mt-8 rounded-2xl bg-slate-900 p-6">
         <h2 className="text-2xl font-bold mb-4">Why CrowdMind Flagged This Risk</h2>
         <ul className="space-y-3">
