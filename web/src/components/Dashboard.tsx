@@ -21,6 +21,7 @@ export default function Dashboard() {
   const [selectedMatch, setSelectedMatch] =
     useState<MatchKey>("argentinaBrazil");
   const [aiIncident, setAiIncident] = useState<any>(null);  
+  const [generatingIncident, setGeneratingIncident] = useState(false);
 
   const event: MatchData = matches[selectedMatch];
   const riskLevel = getRiskLevel(event.riskScore);
@@ -61,6 +62,8 @@ export default function Dashboard() {
 }
 
 async function generateIncident() {
+  setGeneratingIncident(true);
+
   const res = await fetch("/api/generate-incident", {
     method: "POST",
     headers: {
@@ -70,7 +73,21 @@ async function generateIncident() {
   });
 
   const data = await res.json();
+
   setAiIncident(data);
+
+  await fetch("/api/incidents", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      match: event.match,
+      ...data,
+    }),
+  });
+
+  setGeneratingIncident(false);
 }
 
   return (
@@ -207,11 +224,12 @@ async function generateIncident() {
     <h2 className="text-2xl font-bold">AI Incident Simulator</h2>
 
     <button
-      onClick={generateIncident}
-      className="rounded-xl bg-cyan-500 px-4 py-2 font-bold text-slate-950"
-    >
-      Generate AI Incident
-    </button>
+  onClick={generateIncident}
+  disabled={generatingIncident}
+  className="rounded-xl bg-cyan-500 px-4 py-2 font-bold text-slate-950 disabled:opacity-50"
+>
+  {generatingIncident ? "Generating..." : "Generate AI Incident"}
+</button>
   </div>
 
   {aiIncident && (
