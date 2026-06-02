@@ -20,6 +20,7 @@ import WeatherCard from "@/src/components/WeatherCard";
 export default function Dashboard() {
   const [selectedMatch, setSelectedMatch] =
     useState<MatchKey>("argentinaBrazil");
+  const [aiIncident, setAiIncident] = useState<any>(null);  
 
   const event: MatchData = matches[selectedMatch];
   const riskLevel = getRiskLevel(event.riskScore);
@@ -57,6 +58,19 @@ export default function Dashboard() {
   });
 
   alert("Situation report saved to MongoDB");
+}
+
+async function generateIncident() {
+  const res = await fetch("/api/generate-incident", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ event }),
+  });
+
+  const data = await res.json();
+  setAiIncident(data);
 }
 
   return (
@@ -188,7 +202,29 @@ export default function Dashboard() {
           </p>
         ))}
       </section>
+       <section className="mt-8 rounded-2xl bg-slate-900 border border-slate-800 p-6">
+  <div className="flex items-center justify-between">
+    <h2 className="text-2xl font-bold">AI Incident Simulator</h2>
 
+    <button
+      onClick={generateIncident}
+      className="rounded-xl bg-cyan-500 px-4 py-2 font-bold text-slate-950"
+    >
+      Generate AI Incident
+    </button>
+  </div>
+
+  {aiIncident && (
+    <div className="mt-4 rounded-xl border border-red-700 bg-red-950/40 p-4">
+      <p className="text-red-300 uppercase text-sm">{aiIncident.level}</p>
+      <h3 className="mt-2 text-xl font-bold">{aiIncident.location}</h3>
+      <p className="mt-2 text-slate-300">{aiIncident.message}</p>
+      <p className="mt-2 text-cyan-300">
+        Recommended Action: {aiIncident.action}
+      </p>
+    </div>
+  )}
+</section>
       <section className="mt-8 rounded-2xl bg-cyan-950 border border-cyan-800 p-6">
         <h2 className="text-2xl font-bold mb-4">CrowdMind Situation Report</h2>
         <button
