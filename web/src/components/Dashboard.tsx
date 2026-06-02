@@ -188,7 +188,7 @@ export default function Dashboard() {
 
       <div className="mt-8 grid grid-cols-1 xl:grid-cols-2 gap-6">
         <RiskTrendChart baseRisk={event.riskScore} match={event.match} />
-        <WeatherCard weather={event.weather} />
+        <WeatherCard />
       </div>
 
       <div className="mt-8 grid grid-cols-1 xl:grid-cols-2 gap-6">
