@@ -257,7 +257,7 @@ Expected operational consequences.
 
 Recommended immediate interventions.
 
-Reports can be stored in MongoDB for future analysis and record keeping.
+Reports can be stored in Elastic for future analysis and record keeping.
 
 ---
 
@@ -357,7 +357,7 @@ Backend:
 
 Database:
 
-* MongoDB Atlas
+* Elastic
 
 AI Layer:
 
@@ -765,4 +765,4 @@ Built by a solo developer.
 ## Project Summary
 
 CrowdMind combines Gemini reasoning, Elastic operational memory, scenario simulation, weather-aware risk scoring, and a World Cup-inspired command dashboard to help stadium teams make faster and safer matchday decisions.
- (Add Elastic operational memory and cleanup MongoDB)
+ 
