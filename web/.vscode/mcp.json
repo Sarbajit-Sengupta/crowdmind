@@ -1,0 +1,29 @@
+{
+  "servers": {
+    "elastic-crowdmind-memory": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@elastic/mcp-server-elasticsearch"
+      ],
+      "env": {
+        "ES_URL": "${input:elastic-url}",
+        "ES_API_KEY": "${input:elastic-api-key}"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "id": "elastic-url",
+      "type": "promptString",
+      "description": "Elastic Cloud Elasticsearch endpoint"
+    },
+    {
+      "id": "elastic-api-key",
+      "type": "promptString",
+      "description": "Elastic Cloud API key",
+      "password": true
+    }
+  ]
+}

@@ -762,6 +762,15 @@ Built by a solo developer.
 
 ---
 
+## Elastic MCP Server
+
+CrowdMind includes an Elastic MCP server configuration for agent-accessible operational memory.
+
+The MCP configuration is located at:
+
+```txt
+.vscode/mcp.json
+
 ## Project Summary
 
 CrowdMind combines Gemini reasoning, Elastic operational memory, scenario simulation, weather-aware risk scoring, and a World Cup-inspired command dashboard to help stadium teams make faster and safer matchday decisions.

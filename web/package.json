@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "mcp:elastic": "npx -y @elastic/mcp-server-elasticsearch"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^9.4.2",
@@ -23,6 +24,7 @@
     "three": "^0.184.0"
   },
   "devDependencies": {
+    "@elastic/mcp-server-elasticsearch": "^0.3.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
