@@ -1,3 +1,4 @@
+
 # CrowdMind: AI-Powered Stadium Operations Command Center
 
 ## Overview
@@ -389,3 +390,379 @@ While initially focused on FIFA World Cup 2026 scenarios, the platform can be ad
 * Emergency Management Operations
 
 By combining predictive analytics, operational intelligence, AI-assisted decision-making, and real-time situational awareness, CrowdMind empowers organizations to move from reactive event management to proactive operational excellence.
+=======
+# CrowdMind – World Cup 2026 Crowd Intelligence Agent
+
+## Overview
+
+CrowdMind is an AI-powered crowd intelligence and stadium operations platform designed for FIFA World Cup 2026 venues.
+
+The platform helps stadium operators, security teams, transit coordinators, medical teams, and emergency responders monitor crowd conditions, assess operational risk, identify hotspots, simulate high-pressure scenarios, and coordinate responses through an intelligent AI command center.
+
+CrowdMind transforms matchday data into actionable decisions that improve fan safety, venue efficiency, and operational readiness.
+
+---
+
+## Problem
+
+Large sporting events generate massive crowd movement, transportation bottlenecks, security pressure, medical demand, and rapidly changing operational risk.
+
+During major events such as the FIFA World Cup, decision makers often need to understand multiple signals at once:
+
+* Crowd density
+* Match rivalry intensity
+* Weather conditions
+* Transit congestion
+* Security readiness
+* Medical response posture
+* Historical incident patterns
+* Venue hotspot activity
+
+These systems often operate in silos, making it difficult for operations teams to make fast, coordinated decisions.
+
+CrowdMind solves this by providing a unified AI-powered command center for real-time stadium risk intelligence.
+
+---
+
+## Key Features
+
+### AI Operations Command Center
+
+CrowdMind provides a centralized command dashboard for stadium operators to monitor venue conditions, risk levels, incident pressure, operational recommendations, and AI-generated situation summaries.
+
+### Risk Intelligence Engine
+
+The platform calculates dynamic operational risk using event and venue factors such as:
+
+* Attendance
+* Rivalry intensity
+* Weather
+* Transit load
+* Historical incidents
+* Venue hotspots
+* Crowd pressure indicators
+
+The risk engine generates a matchday risk score and classifies the stadium posture from low risk to critical command state.
+
+### Gemini-Powered Operations Intelligence
+
+CrowdMind uses Google Gemini to generate operational reasoning, situation assessments, and decision-support summaries for stadium teams.
+
+Gemini helps transform raw operational signals into clear, human-readable command guidance.
+
+### Multi-Agent Operations Council
+
+CrowdMind includes a multi-agent operations layer where specialized AI roles collaborate on matchday response planning.
+
+Agents include:
+
+* Security Agent
+* Transit Agent
+* Medical Agent
+* Operations Commander
+
+Together, they generate coordinated recommendations for crowd control, gate management, transit response, and emergency readiness.
+
+### Scenario Simulator
+
+The scenario simulator allows operators to stress-test matchday conditions and model how changes affect venue risk.
+
+Operators can simulate factors such as:
+
+* Increased attendance
+* Transit overload
+* Weather disruption
+* Rivalry pressure
+* Incident escalation
+
+Each simulation produces a risk projection, command posture, expected response window, and priority actions.
+
+### Elastic Operational Memory
+
+CrowdMind uses Elastic Cloud as a searchable operational memory layer.
+
+Situation reports and scenario simulations are indexed into Elastic through Next.js API routes, allowing the system to preserve matchday intelligence and retrieve recent operational records.
+
+Stored records include:
+
+* Match and stadium context
+* Risk score and risk level
+* AI-generated situation summaries
+* Predicted impact
+* Priority command actions
+* Scenario simulation outcomes
+* Created timestamps
+* Storage provider metadata
+
+This allows CrowdMind to maintain persistent operational memory across dashboard sessions.
+
+### Weather Intelligence
+
+CrowdMind incorporates weather conditions as an environmental risk signal.
+
+Weather data affects crowd-risk scoring by increasing operational pressure during rain, heat, poor visibility, or adverse matchday conditions.
+
+Weather is used as one signal in the broader risk engine, not as the core intelligence layer.
+
+### Risk Trend Analysis
+
+CrowdMind visualizes projected risk progression before, during, and after a match.
+
+This helps operators understand when pressure is likely to rise and where intervention may be needed.
+
+### Interactive World Cup Dashboard
+
+The interface is designed as a futuristic World Cup operations command center with:
+
+* Live risk cards
+* AI command summaries
+* Scenario simulation
+* Elastic memory saving
+* Risk trend visualization
+* Incident-style operational panels
+* Match-specific context
+
+---
+
+## Technology Stack
+
+### Frontend
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+* Recharts
+
+### AI
+
+* Google Gemini
+* Google ADK / Agent Development Kit
+* Multi-agent operations architecture
+
+### Data & Operational Memory
+
+* Elastic Cloud
+* Elasticsearch JavaScript Client
+* Searchable operational memory index
+
+### External Signals
+
+* Weather API for environmental matchday context
+
+### Deployment
+
+* Vercel-ready Next.js application
+
+---
+
+## Required Hackathon Technologies
+
+### Google Gemini
+
+CrowdMind uses Google Gemini for:
+
+* Operational intelligence
+* Situation assessment
+* Multi-agent reasoning
+* Decision support
+* Stadium risk explanation
+* Command-style summaries
+
+Gemini converts operational context into actionable recommendations for matchday teams.
+
+### Google ADK / Agent Builder
+
+CrowdMind includes a Google ADK agent implementation located at:
+
+```txt
+agents/crowdmind_agent/agent.py
+```
+
+The ADK agent represents a World Cup stadium operations agent that can analyze stadium risk, evaluate hotspots, and produce operational recommendations.
+
+The project also includes runtime agent-style workflows through the dashboard’s command and multi-agent layers.
+
+### Elastic
+
+CrowdMind uses Elastic Cloud as its operational memory and search layer.
+
+Elastic stores and retrieves:
+
+* Situation reports
+* Scenario simulations
+* Risk assessments
+* Matchday operational summaries
+* Command recommendations
+
+The working API endpoint is:
+
+```txt
+/api/reports
+```
+
+This route indexes reports and simulations into Elastic and retrieves recent operational memory records.
+
+---
+
+## How It Works
+
+1. Match data is loaded into the CrowdMind operations dashboard.
+2. The risk engine evaluates event conditions such as attendance, rivalry, weather, transit pressure, and historical incidents.
+3. Gemini generates operational intelligence and command-style reasoning.
+4. The multi-agent council produces specialized recommendations for security, transit, medical, and operations teams.
+5. Operators can run scenario simulations to test how crowd risk changes under pressure.
+6. Situation reports and scenario simulations are saved into Elastic as searchable operational memory.
+7. Operators can retrieve recent reports and simulations through the `/api/reports` endpoint.
+8. The dashboard provides actionable guidance for stadium operations teams.
+
+---
+
+## Installation
+
+```bash
+git clone <repository-url>
+
+cd crowdmind/web
+
+npm install
+
+npm run dev
+```
+
+Open:
+
+```txt
+http://localhost:3000
+```
+
+---
+
+## Environment Variables
+
+Create a `.env.local` file in the project root:
+
+```txt
+crowdmind/web/.env.local
+```
+
+Add the following environment variables:
+
+```env
+GEMINI_API_KEY=
+ELASTICSEARCH_URL=
+ELASTICSEARCH_API_KEY=
+ELASTICSEARCH_INDEX=crowdmind-reports
+WEATHER_API_KEY=
+```
+
+Notes:
+
+* `GEMINI_API_KEY` is used for Gemini-powered AI reasoning.
+* `ELASTICSEARCH_URL` is the Elastic Cloud Elasticsearch endpoint.
+* `ELASTICSEARCH_API_KEY` is used to authenticate with Elastic.
+* `ELASTICSEARCH_INDEX` stores CrowdMind reports and simulations.
+* `WEATHER_API_KEY` is used for environmental risk signals if weather integration is enabled.
+
+Do not commit `.env.local` to GitHub.
+
+---
+
+## API Routes
+
+### Reports and Operational Memory
+
+```txt
+/api/reports
+```
+
+Methods:
+
+* `GET` – retrieves recent Elastic operational memory records.
+* `POST` – saves situation reports and scenario simulations into Elastic.
+
+Saved records include:
+
+* Match
+* Stadium
+* Risk level
+* Summary
+* Impact
+* Priority actions
+* Report type
+* Storage provider
+* Memory layer
+* Created timestamp
+
+### AI and Agent Routes
+
+CrowdMind also includes AI-powered routes for Gemini reasoning and agent-style command workflows.
+
+These routes support the dashboard’s operational intelligence and multi-agent response features.
+
+---
+
+## Example Elastic Record
+
+```json
+{
+  "match": "Argentina vs Brazil",
+  "stadium": "MetLife Stadium",
+  "riskScore": 10,
+  "riskLevel": "Critical",
+  "summary": "Argentina vs Brazil at MetLife Stadium is classified as Critical risk due to crowd size, mobility pressure, and event context.",
+  "impact": [
+    "Gate A may experience early congestion",
+    "East Train Station requires active monitoring",
+    "Post-match crowd movement may overload nearby exits"
+  ],
+  "priorityActions": [
+    "Open Gate C early",
+    "Add 15 security staff",
+    "Increase train frequency by 20%"
+  ],
+  "storageProvider": "Elastic",
+  "memoryLayer": "CrowdMind Operational Memory"
+}
+```
+
+---
+
+## Future Vision
+
+CrowdMind can evolve into a full-scale event intelligence platform for:
+
+* FIFA World Cup venues
+* Olympic stadiums
+* Concerts
+* Festivals
+* Airport crowd operations
+* Public safety command centers
+* Large-scale emergency planning
+
+Future improvements could include:
+
+* Real-time sensor integration
+* Computer vision crowd density detection
+* Live transit API integration
+* Emergency dispatch coordination
+* Predictive crowd movement modeling
+* Historical incident retrieval through Elastic search
+* Autonomous multi-agent response planning
+
+---
+
+## Built For
+
+Google Cloud Rapid Agent Hackathon 2026
+
+Partner Track: Elastic
+
+Built by a solo developer.
+
+---
+
+## Project Summary
+
+CrowdMind combines Gemini reasoning, Elastic operational memory, scenario simulation, weather-aware risk scoring, and a World Cup-inspired command dashboard to help stadium teams make faster and safer matchday decisions.
+ (Add Elastic operational memory and cleanup MongoDB)

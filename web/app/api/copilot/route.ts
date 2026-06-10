@@ -1,25 +1,19 @@
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY,
-  baseURL: "https://openrouter.ai/api/v1",
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 export async function POST(req: Request) {
   try {
-   const { question, context } = await req.json();
+    const { question, context } = await req.json();
 
-    const completion = await client.chat.completions.create({
-      model: "openai/gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are CrowdMind, an AI crowd intelligence agent for World Cup stadium operations. Give concise, operationally useful answers.",
-        },
-        {
-  role: "user",
-  content: `
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash",
+    });
+
+    const prompt = `
+You are CrowdMind, an AI crowd intelligence agent for World Cup stadium operations.
+Give concise, operationally useful answers.
+
 Current event context:
 Match: ${context.match}
 Venue: ${context.stadium}
@@ -31,16 +25,15 @@ Existing recommendations: ${context.recommendations.join(", ")}
 
 Question:
 ${question}
-`,
-},
-      ],
-    });
+`;
+
+    const result = await model.generateContent(prompt);
 
     return Response.json({
-      answer: completion.choices[0].message.content,
+      answer: result.response.text(),
     });
   } catch (error: any) {
-    console.error("OPENROUTER ERROR:", error);
+    console.error("GEMINI COPILOT ERROR:", error);
 
     return Response.json(
       {

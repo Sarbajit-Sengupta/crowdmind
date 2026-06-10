@@ -1,35 +1,20 @@
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY,
-  baseURL: "https://openrouter.ai/api/v1",
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 export async function POST(req: Request) {
   try {
     const { event } = await req.json();
 
-    const completion = await client.chat.completions.create({
-      model: "openai/gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are CrowdMind's multi-agent stadium operations system. Return JSON only.",
-        },
-        {
-          role: "user",
-          content: `
-Event:
-Match: ${event.match}
-Venue: ${event.stadium}
-Attendance: ${event.attendance}
-Risk Score: ${event.riskScore}/10
-Hotspots: ${event.hotspots.join(", ")}
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash",
+    });
 
-Return JSON only:
+    const prompt = `
+You are CrowdMind's multi-agent stadium operations system.
 
+Return ONLY valid JSON:
 {
   "security": "one concise paragraph",
   "transit": "one concise paragraph",
@@ -37,19 +22,23 @@ Return JSON only:
   "commander": "one concise paragraph"
 }
 
-Do not return nested objects.
-Do not return arrays.
-Each value must be a single string.
-`,
-        },
-      ],
-    });
+Event:
+Match: ${event.match}
+Venue: ${event.stadium}
+Attendance: ${event.attendance}
+Risk Score: ${event.riskScore}/10
+Hotspots: ${event.hotspots.join(", ")}
+`;
 
-    const text = completion.choices[0].message.content || "{}";
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+
     const cleaned = text.replace(/```json|```/g, "").trim();
 
     return NextResponse.json(JSON.parse(cleaned));
-  } catch {
+  } catch (error) {
+    console.error("GEMINI MULTI AGENT ERROR:", error);
+
     return NextResponse.json({
       security: "Deploy additional personnel near primary hotspots.",
       transit: "Increase outbound train frequency and prepare overflow routing.",
