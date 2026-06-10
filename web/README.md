@@ -766,3 +766,6 @@ Built by a solo developer.
 
 CrowdMind combines Gemini reasoning, Elastic operational memory, scenario simulation, weather-aware risk scoring, and a World Cup-inspired command dashboard to help stadium teams make faster and safer matchday decisions.
  
+## License
+
+This project is licensed under the MIT License.
