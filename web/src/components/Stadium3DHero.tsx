@@ -294,7 +294,7 @@ export default function Stadium3DHero() {
 
             <div className="rounded-2xl border border-purple-400/20 bg-purple-400/10 p-4">
               <p className="text-xs uppercase tracking-[0.25em] text-slate-400">
-                Mongo Memory
+                Elastic Memory
               </p>
               <p className="mt-2 text-2xl font-black text-purple-300">
                 SYNCED

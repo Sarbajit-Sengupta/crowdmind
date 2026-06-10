@@ -238,23 +238,54 @@ async function saveSimulationToElastic() {
             </p>
 
             <div className="mt-5 grid grid-cols-1 gap-3">
-              {(Object.keys(scenarios) as ScenarioKey[]).map((key) => {
-                const item = scenarios[key];
-                const active = selectedScenario === key;
+  {(Object.keys(scenarios) as ScenarioKey[]).map((key) => {
+    const item = scenarios[key];
+    const active = selectedScenario === key;
 
-                return (
-                  <button
+    return (
+      <button
+        key={key}
+        onClick={() => setSelectedScenario(key)}
+        className={`rounded-2xl border px-5 py-4 text-left transition-all duration-300 ${
+          active
+            ? "border-fuchsia-300/50 bg-fuchsia-300/15 shadow-[0_0_35px_rgba(217,70,239,0.18)]"
+            : "border-white/10 bg-white/[0.04] hover:border-fuchsia-300/30 hover:bg-fuchsia-300/10"
+        }`}
+      >
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-white">
+              {item.title}
+            </p>
+            <p className="mt-2 text-xs leading-relaxed text-slate-400">
+              {item.description}
+            </p>
+          </div>
+
+          <span
+            className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] ${
+              active
+                ? "bg-fuchsia-300 text-slate-950"
+                : "bg-white/10 text-slate-300"
+            }`}
+          >
+            {active ? "Active" : "Select"}
+          </span>
+        </div>
+      </button>
+    );
+  })}
+</div>
+
+<button
   onClick={saveSimulationToElastic}
   className="mt-5 w-full rounded-2xl border border-fuchsia-300/25 bg-fuchsia-300/10 px-5 py-4 text-sm font-black uppercase tracking-[0.24em] text-fuchsia-200 transition-all duration-300 hover:-translate-y-1 hover:border-fuchsia-300/45 hover:bg-fuchsia-300/15 hover:shadow-[0_0_35px_rgba(217,70,239,0.18)]"
 >
-  Save Simulation to Elastic 
+  Save Simulation to Elastic Memory
 </button>
-                );
-              })}
-            </div>
-          </div>
+</div>
 
-          {/* Main simulation panel */}
+{/* Main simulation panel */}
           <div className="relative overflow-hidden rounded-[2rem] border border-fuchsia-300/20 bg-slate-950/75 p-6 shadow-[0_0_90px_rgba(217,70,239,0.10)]">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(217,70,239,0.14),transparent_48%),radial-gradient(circle_at_80%_20%,rgba(34,211,238,0.10),transparent_36%)]" />
             <div className="sim-scan pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-fuchsia-300/12 to-transparent" />
